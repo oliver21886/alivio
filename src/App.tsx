@@ -47,17 +47,18 @@ function App() {
   }, []);
 
   // Function to append UTM parameters to checkout URLs
-  const getCheckoutUrl = (baseUrl: string) => {
-    console.log('UTM params to append:', utmParams); // Debug
-    if (utmParams) {
-      const separator = baseUrl.includes('?') ? '&' : '?';
-      const finalUrl = `${baseUrl}${separator}${utmParams}`;
-      console.log('Final checkout URL:', finalUrl); // Debug
-      return finalUrl;
-    }
-    console.log('No UTM params, using base URL:', baseUrl); // Debug
-    return baseUrl;
-  };
+const getCheckoutUrl = (baseUrl: string) => {
+  const url = new URL(baseUrl);
+  if (utmParams) {
+    new URLSearchParams(utmParams).forEach((value, key) => {
+      url.searchParams.set(key, value);
+    });
+  }
+  const finalUrl = url.toString();
+  console.log('Final checkout URL:', finalUrl);
+  return finalUrl;
+};
+
 
   const handleCheckoutClick = () => {
     const checkoutUrl = getCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
