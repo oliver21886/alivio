@@ -36,45 +36,32 @@ function App() {
     }
   }, [timeLeft]);
 
-   // Capturar parâmetros UTM na inicialização
+  // Extract UTM parameters from current URL
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const utmParameters = [];
+    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'click_id', 'fbclid', 'gclid'];
+    const params = new URLSearchParams();
     
-    // Lista de parâmetros UTM e outros parâmetros de tracking
-    const trackingParams = [
-      'utm_source',
-      'utm_medium', 
-      'utm_campaign',
-      'utm_term',
-      'utm_content',
-      'click_id',
-      'fbclid',
-      'gclid',
-      'ttclid'
-    ];
-    
-    trackingParams.forEach(param => {
-      const value = urlParams.get(param);
+    utmKeys.forEach(key => {
+      const value = urlParams.get(key);
       if (value) {
-        utmParameters.push(`${param}=${encodeURIComponent(value)}`);
+        params.append(key, value);
       }
     });
     
-    if (utmParameters.length > 0) {
-      setUtmParams('&' + utmParameters.join('&'));
-    }
+    setUtmParams(params.toString());
   }, []);
 
-  // Função para adicionar UTMs aos links de checkout
-  const addUtmToCheckoutUrl = (baseUrl: string) => {
-    const separator = baseUrl.includes('?') ? '&' : '?';
-    return baseUrl + (utmParams ? separator + utmParams.substring(1) : '');
+  // Function to append UTM parameters to checkout URLs
+  const getCheckoutUrl = (baseUrl: string) => {
+    if (utmParams) {
+      return `${baseUrl}?${utmParams}`;
+    }
+    return baseUrl;
   };
 
   const handleCheckoutClick = () => {
-    const checkoutUrl = addUtmToCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
-    window.open(checkoutUrl, '_blank');
+    window.location.href = getCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
   };
 
   return (
