@@ -48,11 +48,13 @@ function App() {
 
   // Function to append UTM parameters to checkout URLs
 const getCheckoutUrl = (baseUrl: string) => {
+  const separator = baseUrl.includes('?') ? '&' : '?';
   if (utmParams) {
-    return `${baseUrl}?${utmParams}`;
+    return `${baseUrl}${separator}${utmParams}`;
   }
   return baseUrl;
 };
+
 
 
 
