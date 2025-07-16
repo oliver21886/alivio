@@ -68,11 +68,13 @@ function App() {
 
   // Função para adicionar UTMs aos links de checkout
   const addUtmToCheckoutUrl = (baseUrl: string) => {
-    return baseUrl + utmParams;
+    const separator = baseUrl.includes('?') ? '&' : '?';
+    return baseUrl + (utmParams ? separator + utmParams.substring(1) : '');
   };
 
-  const scrollToCheckout = () => {
-    window.location.href = addUtmToCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
+  const handleCheckoutClick = () => {
+    const checkoutUrl = addUtmToCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
+    window.open(checkoutUrl, '_blank');
   };
 
   return (
@@ -113,7 +115,7 @@ function App() {
           {showButton && (
             <div className="px-4">
               <button 
-                onClick={scrollToCheckout}
+                onClick={handleCheckoutClick}
                 className="w-full sm:w-auto bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-full text-lg sm:text-xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 max-w-sm mx-auto block border-2 border-green-500"
               >
                 SIM, QUERO ALÍVIO IMEDIATO!
