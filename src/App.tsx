@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import Logo from './components/Logo';
 
 function App() {
@@ -71,11 +72,26 @@ function App() {
   };
 
   const scrollToCheckout = () => {
-    window.location.href = getCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
+    window.location.href = addUtmToCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
   };
 
   return (
-    return baseUrl + utmParams;
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Header */}
+      <header className="bg-white shadow-sm py-4 md:py-6">
+        <div className="container mx-auto px-4">
+          <Logo />
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <section className="flex-1 py-12 md:py-16 lg:py-20">
+        <div className="container mx-auto text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-800 mb-6 md:mb-8 leading-tight px-4">
+            <span className="block mb-2 md:mb-4">
+              Finalmente! O Protocolo Natural que
+              <span className="block text-green-600 mt-2">
+                Elimina a Dor nas Costas em 7 Dias
               </span>
             </span>
           </h1>
@@ -124,6 +140,7 @@ function App() {
         </div>
       </footer>
 
+    </div>
     </div>
   );
 }
