@@ -52,11 +52,22 @@ const getCheckoutUrl = (baseUrl: string) => {
 
 
 
-  const handleCheckoutClick = () => {
-    const checkoutUrl = getCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
-    console.log('Redirecting to:', checkoutUrl);
-    window.location.href = checkoutUrl;
-  };
+const handleCheckoutClick = () => {
+  const baseUrl = "https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba";
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'click_id', 'fbclid', 'gclid'];
+  const checkoutUrl = new URL(baseUrl);
+
+  utmKeys.forEach(key => {
+    const value = urlParams.get(key);
+    if (value) checkoutUrl.searchParams.append(key, value);
+  });
+
+  const finalUrl = checkoutUrl.toString();
+  console.log('URL final enviada ao checkout:', finalUrl);
+  window.location.href = finalUrl;
+};
+
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
