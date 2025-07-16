@@ -48,16 +48,12 @@ function App() {
 
   // Function to append UTM parameters to checkout URLs
 const getCheckoutUrl = (baseUrl: string) => {
-  const url = new URL(baseUrl);
   if (utmParams) {
-    new URLSearchParams(utmParams).forEach((value, key) => {
-      url.searchParams.set(key, value);
-    });
+    return `${baseUrl}?${utmParams}`;
   }
-  const finalUrl = url.toString();
-  console.log('Final checkout URL:', finalUrl);
-  return finalUrl;
+  return baseUrl;
 };
+
 
 
   const handleCheckoutClick = () => {
