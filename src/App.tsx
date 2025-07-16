@@ -62,7 +62,7 @@ function App() {
   };
 
   const handleCheckoutClick = () => {
-    const checkoutUrl = getCheckoutUrl("https://pay.kirvano.com/protocolo-alivio-ja");
+    const checkoutUrl = getCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
     console.log('Checkout URL:', checkoutUrl); // Para debug
     window.location.href = checkoutUrl;
   };
