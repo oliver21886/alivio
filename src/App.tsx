@@ -25,32 +25,43 @@ function App() {
 
   // Extract UTM parameters from current URL
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'click_id', 'fbclid', 'gclid'];
-    const params = new URLSearchParams();
+    const captureUtmParams = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'click_id', 'fbclid', 'gclid'];
+      const params = new URLSearchParams();
+      
+      utmKeys.forEach(key => {
+        const value = urlParams.get(key);
+        if (value) {
+          params.append(key, value);
+          console.log(`Captured ${key}: ${value}`); // Debug
+        }
+      });
+      
+      const paramString = params.toString();
+      console.log('All UTM params:', paramString); // Debug
+      setUtmParams(paramString);
+    };
     
-    utmKeys.forEach(key => {
-      const value = urlParams.get(key);
-      if (value) {
-        params.append(key, value);
-      }
-    });
-    
-    setUtmParams(params.toString());
+    captureUtmParams();
   }, []);
 
   // Function to append UTM parameters to checkout URLs
   const getCheckoutUrl = (baseUrl: string) => {
+    console.log('UTM params to append:', utmParams); // Debug
     if (utmParams) {
       const separator = baseUrl.includes('?') ? '&' : '?';
-      return `${baseUrl}${separator}${utmParams}`;
+      const finalUrl = `${baseUrl}${separator}${utmParams}`;
+      console.log('Final checkout URL:', finalUrl); // Debug
+      return finalUrl;
     }
+    console.log('No UTM params, using base URL:', baseUrl); // Debug
     return baseUrl;
   };
 
   const handleCheckoutClick = () => {
     const checkoutUrl = getCheckoutUrl("https://pay.kirvano.com/51c9da2f-ca9e-4fa4-ae34-f0e646202aba");
-    console.log('Checkout URL:', checkoutUrl); // Para debug
+    console.log('Redirecting to:', checkoutUrl);
     window.location.href = checkoutUrl;
   };
 
