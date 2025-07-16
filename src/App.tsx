@@ -24,27 +24,21 @@ function App() {
   const [utmParams, setUtmParams] = useState('');
 
   // Extract UTM parameters from current URL
-  useEffect(() => {
-    const captureUtmParams = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'click_id', 'fbclid', 'gclid'];
-      const params = new URLSearchParams();
-      
-      utmKeys.forEach(key => {
-        const value = urlParams.get(key);
-        if (value) {
-          params.append(key, value);
-          console.log(`Captured ${key}: ${value}`); // Debug
-        }
-      });
-      
-      const paramString = params.toString();
-      console.log('All UTM params:', paramString); // Debug
-      setUtmParams(paramString);
-    };
-    
-    captureUtmParams();
-  }, []);
+useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'click_id', 'fbclid', 'gclid'];
+  const params = new URLSearchParams();
+
+  utmKeys.forEach(key => {
+    const value = urlParams.get(key);
+    if (value) {
+      params.append(key, value);
+    }
+  });
+
+  setUtmParams(params.toString());
+}, []);
+
 
   // Function to append UTM parameters to checkout URLs
 const getCheckoutUrl = (baseUrl: string) => {
