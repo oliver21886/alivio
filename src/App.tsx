@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 import Logo from './components/Logo';
 
 function App() {
-  const [showButton, setShowButton] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(180); // 3 minutos em segundos
+  const [showButton, setShowButton] = useState(true);
 
   // Carregar script da VSL
   React.useEffect(() => {
@@ -23,18 +22,6 @@ function App() {
   }, []);
   
   const [utmParams, setUtmParams] = useState('');
-
-  // Timer effect
-  React.useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = setTimeout(() => {
-        setTimeLeft(timeLeft - 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else {
-      setShowButton(true);
-    }
-  }, [timeLeft]);
 
   // Extract UTM parameters from current URL
   useEffect(() => {
